@@ -79,3 +79,36 @@ public:
         return dummynode->next;
     }
 };
+
+
+/*
+56. 合并区间
+
+思路简单,先排序，然后遍历一遍，如果当前区间的左端点小于等于上一个区间的右端点，那么就合并，否则就不合并。
+记注vector操作，比如begin end push_back
+*/
+
+class Solution {
+public:
+    int max(int a,int b){
+        if(a>b)return a;
+        else return b;
+    }
+
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        sort(intervals.begin(),intervals.end());
+        vector<vector<int>> merged;
+        merged.push_back(intervals[0]);
+        int mIdx = 0;
+        for(int i=1;i<intervals.size();i++){
+            if(intervals[i][0]<=merged[mIdx][1]){
+                merged[mIdx][1] = max(merged[mIdx][1],intervals[i][1]);
+            }
+            else{
+                merged.push_back(intervals[i]);
+                mIdx++;
+            } 
+        }
+        return merged;
+    }
+};
