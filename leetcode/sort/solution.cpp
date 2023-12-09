@@ -85,7 +85,7 @@ public:
 56. 合并区间
 
 思路简单,先排序，然后遍历一遍，如果当前区间的左端点小于等于上一个区间的右端点，那么就合并，否则就不合并。
-记注vector操作，比如begin end push_back
+记注vector操作，比如begin end push_back size等
 */
 
 class Solution {
@@ -110,5 +110,40 @@ public:
             } 
         }
         return merged;
+    }
+};
+
+/*
+    179.最大数
+    给定一组非负整数，重新排列它们的顺序使之组成一个最大的整数。
+
+*/
+
+#include <string>
+class Solution {
+public:
+    string largestNumber(vector<int>& nums) {
+        vector<string> snums;
+        for(int i=0;i<nums.size();i++){
+            snums.push_back(to_string(nums[i]));
+        }
+        sort(snums.begin(),snums.end());
+        string res = "";
+        if(snums.size()==1)return snums[0];
+        for(int i=snums.size()-1;i>0;i-=1){
+            string tmp1 = snums[i] + snums[i-1];
+             
+            string tmp2 = snums[i-1] + snums[i];
+            
+            
+            if(tmp1>tmp2)res+=snums[i];
+            else {
+                if(snums[i]==snums[i-1]&&snums[i]=="0"&&res=="")continue;
+                res+=snums[i-1];
+                snums[i-1] = snums[i];
+            }
+        }
+        res+=snums[0];
+        return res;
     }
 };
