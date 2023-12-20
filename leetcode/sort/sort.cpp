@@ -173,3 +173,25 @@ public:
 */
 /
 
+class Solution {
+public:
+  int quickselect(vector<int> &nums, int l, int r, int k) {
+        if (l == r)
+            return nums[k];
+        int partition = nums[l], i = l - 1, j = r + 1;
+        while (i < j) {
+            do i++; while (nums[i] < partition);
+            do j--; while (nums[j] > partition);
+            if (i < j)
+                swap(nums[i], nums[j]);
+        }
+        if (k <= j)return quickselect(nums, l, j, k);
+        else return quickselect(nums, j + 1, r, k);//这两行是对快排的改进，如果k在右边，那么就在右边找，否则就在左边找
+    }
+
+    int findKthLargest(vector<int> &nums, int k) {
+        int n = nums.size();
+        return quickselect(nums, 0, n - 1, n - k);
+    }
+ 
+};

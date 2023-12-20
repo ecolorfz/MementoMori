@@ -12,7 +12,6 @@
 
 注意：后两题是与快速排序非常相似的快速选择（Quick Select）算法，面试中很常考
 
-
 **归并排序和快速排序**
 
 共同点：分治
@@ -23,7 +22,7 @@
 
 ![1702793049418](image/sort/1702793049418.png)
 
-快排
+**快排：通过线性的方法将数组划分为拥有一个pivot点的数组，也就是pivot左边所有元素小于pivot,右边所有元素大于pivot（partition函数，被调用）。取得这个pivot点，然后对pivot两边的数组递归进行如上操作（quicksort函数，顶层）**
 
 ![1702793063565](image/sort/1702793063565.png)
 
@@ -81,30 +80,28 @@ Merge(arr, left, mid, right)
 ```
 
 ```cpp
-#快速排序
-QuickSort(arr, low, high)
-    if low < high
-        // Partition the array, arr[p..q] such that elements less than or equal to arr[q] are on the left,
-        // and elements greater than arr[q] are on the right.
-        pivotIndex = Partition(arr, low, high)
+ int Paritition1(int A[], int low, int high) {
+   int pivot = A[low];
+   while (low < high) {
+     while (low < high && A[high] >= pivot) {
+       --high;
+     }
+     A[low] = A[high];
+     while (low < high && A[low] <= pivot) {
+       ++low;
+     }
+     A[high] = A[low];
+   }
+   A[low] = pivot;
+   return low;
+ }
 
-        // Recursively sort the sub-arrays
-        QuickSort(arr, low, pivotIndex - 1)
-        QuickSort(arr, pivotIndex + 1, high)
-
-Partition(arr, low, high)
-    pivot = arr[high]
-    i = low - 1
-
-    // Iterate through the array and rearrange elements
-    for j = low to high - 1
-        if arr[j] <= pivot
-            i = i + 1
-            // Swap arr[i] and arr[j]
-            Swap(arr[i], arr[j])
-
-    // Swap arr[i + 1] and arr[high] to place the pivot in its correct position
-    Swap(arr[i + 1], arr[high])
-    return i + 1
-
+ void QuickSort(int A[], int low, int high) //快排母函数
+ {
+   if (low < high) {
+     int pivot = Paritition1(A, low, high);
+     QuickSort(A, low, pivot - 1);
+     QuickSort(A, pivot + 1, high);
+   }
+ }
 ```
